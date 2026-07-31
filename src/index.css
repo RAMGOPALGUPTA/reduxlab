@@ -1,0 +1,349 @@
+/* ============================================================
+   Content Desk — design system
+   Concept: a broadcast "cue sheet" for scheduling posts.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Color */
+  --color-bg: #161c22;
+  --color-surface: #1f2830;
+  --color-surface-raised: #26313a;
+  --color-border: #33404a;
+  --color-text: #ece8de;
+  --color-text-muted: #8fa0ac;
+
+  --color-amber: #e8a93a;   /* scheduled / cue */
+  --color-teal: #4fb6a6;    /* published / live */
+  --color-slate: #8b98a0;   /* draft */
+  --color-danger: #b3475b;  /* delete / destructive */
+
+  --color-platform-twitter: #5fb4d9;
+  --color-platform-linkedin: #5c7ce0;
+  --color-platform-instagram: #c165a0;
+  --color-platform-default: #6b7a85;
+
+  /* Type */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Layout */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+/* ---------- App shell ---------- */
+
+.app {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.app__header {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.app__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  margin: 0 0 6px;
+}
+
+.app__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 42px;
+  letter-spacing: 0.01em;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.app__subtitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 8px 0 0;
+}
+
+.app__loading {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Stats ticker ---------- */
+
+.stats {
+  display: flex;
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.stats__item {
+  flex: 1;
+  background: var(--color-surface);
+  padding: 14px 16px;
+  border-top: 2px solid transparent;
+}
+
+.stats__item[data-status='published'] {
+  border-top-color: var(--color-teal);
+}
+.stats__item[data-status='scheduled'] {
+  border-top-color: var(--color-amber);
+}
+.stats__item[data-status='draft'] {
+  border-top-color: var(--color-slate);
+}
+
+.stats__value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.stats__label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* ---------- Controls / filters ---------- */
+
+.board__controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.control__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.select {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  min-width: 160px;
+}
+
+.select:hover {
+  border-color: var(--color-text-muted);
+}
+
+/* ---------- Cue sheet (post list) ---------- */
+
+.cue-sheet {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cue-card {
+  display: flex;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* Signature element: colored tape identifying the platform */
+.cue-card__accent {
+  width: 5px;
+  flex-shrink: 0;
+  background: var(--color-platform-default);
+}
+
+.cue-card[data-platform='twitter'] .cue-card__accent {
+  background: var(--color-platform-twitter);
+}
+.cue-card[data-platform='linkedin'] .cue-card__accent {
+  background: var(--color-platform-linkedin);
+}
+.cue-card[data-platform='instagram'] .cue-card__accent {
+  background: var(--color-platform-instagram);
+}
+
+.cue-card__body {
+  flex: 1;
+  padding: 14px 16px;
+}
+
+.cue-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cue-card__platform {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.cue-card__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 0 4px;
+  color: var(--color-text);
+}
+
+.cue-card__excerpt {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0 0 12px;
+}
+
+.cue-card__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Signature element: status "cue dot" ---------- */
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.status-dot--draft {
+  background: transparent;
+  border: 2px solid var(--color-slate);
+}
+
+.status-dot--scheduled {
+  background: var(--color-amber);
+  animation: cue-pulse 1.6s ease-in-out infinite;
+}
+
+.status-dot--published {
+  background: var(--color-teal);
+}
+
+@keyframes cue-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 169, 58, 0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(232, 169, 58, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot--scheduled {
+    animation: none;
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.btn--ghost-danger {
+  background: transparent;
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.btn--ghost-danger:hover {
+  background: var(--color-danger);
+  color: var(--color-text);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 560px) {
+  .app {
+    padding: 24px 16px 60px;
+  }
+  .app__title {
+    font-size: 32px;
+  }
+  .stats {
+    flex-wrap: wrap;
+  }
+  .stats__item {
+    flex: 1 1 45%;
+  }
+  .cue-card__controls {
+    flex-wrap: wrap;
+  }
+}
