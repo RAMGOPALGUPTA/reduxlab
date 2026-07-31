@@ -1,4 +1,5 @@
 # Redux Toolkit Post Manager — Experiment 1.2
+Deployed and live at : https://reduxlab-six.vercel.app/
 
 Combines Experiment 1.2.1 (centralized/normalized state) and 1.2.2
 (memoized selectors & rendering optimization) into one working app.
