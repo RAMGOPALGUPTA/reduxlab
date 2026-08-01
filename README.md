@@ -12,7 +12,7 @@ cd redux-lab
 npm install
 npm run dev
 ```
-Then open the URL Vite prints (usually `http://localhost:5173`).
+Then open the URL Vite prints (https://reduxlab-six.vercel.app/).
 
 Other scripts:
 - `npm run build` — production build
